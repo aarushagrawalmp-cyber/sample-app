@@ -4,28 +4,28 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'npm test'
+                sh 'npm test'
             }
         }
 
         stage('Image') {
             steps {
-                bat 'docker build -t aarushagrawalmp-cyber/sample-app:v4 .'
+                sh 'docker build -t aarushagrawalmp-cyber/sample-app:v4 .'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat '''
-                docker stop jenkins-sample-app || exit 0
-                docker rm jenkins-sample-app || exit 0
-                docker run -d --name jenkins-sample-app -p 3002:3000 aarushagrawalmp-cyber/sample-app:v4
+                sh '''
+                docker stop jenkins-sample-app || true
+                docker rm jenkins-sample-app || true
+                docker run -d --name jenkins-sample-app -p 3003:3000 aarushagrawalmp-cyber/sample-app:v4
                 '''
             }
         }
